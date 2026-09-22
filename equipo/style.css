@@ -1,0 +1,12 @@
+/* ==================== asistencias ==================== */
+
+.att-row { display: grid; grid-template-columns: minmax(0, 1fr) 110px 100px 100px 110px 130px; align-items: center; gap: 14px; padding: 0 18px; }
+.att-head { height: 40px; background: var(--surface-2); border-bottom: 1px solid var(--line); font-size: 10.5px; font-weight: 700; color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; }
+.att-body { height: 56px; border-bottom: 1px solid var(--line-soft); }
+.att-body:last-child { border-bottom: 0; }
+.att-body:hover { background: var(--surface-2); }
+.chip { font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 6px; white-space: nowrap; }
+.chip-in { background: var(--verde-sua); color: var(--verde); }
+.chip-late { background: var(--oro-sua); color: var(--oro); }
+.chip-out { background: var(--wash); color: var(--ink-2); }
+.chip-no { background: var(--rojo-sua); color: var(--rojo-hon); }

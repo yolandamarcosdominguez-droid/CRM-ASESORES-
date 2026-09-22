@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Llamada en curso · CRM Campaña</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/common.css">
+<link rel="stylesheet" href="/llamada/style.css">
+<link rel="stylesheet" href="/assets/css/cubierta.css">
+</head>
+<body data-pagina="llamada" data-rol-defecto="asesor">
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Navegación principal"></nav>
+
+  <main class="main">
+
+    <div class="rolebar" id="rolebar"></div>
+
+    <div class="head" style="align-items:center">
+      <a class="btn" href="/bandeja.html" aria-label="Volver a la bandeja" style="width:36px;height:36px;padding:0;flex-shrink:0">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </a>
+      <div class="av av-es" style="width:46px;height:46px;font-size:15px">MI</div>
+      <div class="head-txt">
+        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+          <h1 style="font-size:25px">Marta Ibáñez</h1>
+          <span class="badge b-meta">LEAD DE META</span>
+        </div>
+        <p class="sub num">+34 610 44 21 08 · Madrid · franja buena 16:00–19:00 (09:00–12:00 en Lima)</p>
+      </div>
+      <div class="clocks" id="clocks"></div>
+    </div>
+
+    <div class="split">
+
+      <div class="col-l">
+
+        <section class="card stack">
+          <h2 class="eyebrow">Respuestas del formulario de Meta</h2>
+          <dl class="grid2" style="margin:0">
+            <div class="pair"><dt>¿Qué te interesa?</dt><dd>Líneas móviles + fibra</dd></div>
+            <div class="pair"><dt>Operadora actual</dt><dd>MOVISTAR</dd></div>
+            <div class="pair"><dt>¿Cuántas líneas?</dt><dd>6 líneas</dd></div>
+            <div class="pair"><dt>DNI</dt><dd class="num">73073737</dd></div>
+          </dl>
+        </section>
+
+        <section class="card stack">
+          <h2 class="eyebrow">De dónde viene</h2>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div class="kv"><span class="kv-k">Campaña</span><span class="kv-v">ES · Captación Q3 — Líneas + fibra</span></div>
+            <div class="kv"><span class="kv-k">Conjunto</span><span class="kv-v">Madrid 35-55 · intereses hogar</span></div>
+            <div class="kv"><span class="kv-k">Anuncio</span><span class="kv-v">Vídeo oferta abril (v3)</span></div>
+            <div class="kv"><span class="kv-k">Recibido</span><span class="kv-v num">16:35 Madrid · 09:35 Lima</span></div>
+          </div>
+        </section>
+
+        <section class="deck"><div class="deck-stripe"></div>
+          <div class="deck-top">
+            <div>
+              <h2>La ruta de esta venta</h2>
+              <span class="sub2">1.800 km hasta la instalación completa</span>
+            </div>
+            <div class="deck-metrics">
+              <div><span class="k">Va por el</span><span class="v">km 120</span></div>
+            </div>
+          </div>
+          <div style="padding:10px 22px 2px">
+            <div class="route"><div class="route-head" id="mini-head"></div></div>
+          </div>
+          <div style="padding:0 22px 14px">
+            <div class="route"><div class="route-in" id="mini-route"></div></div>
+          </div>
+          <div class="deck-key">
+            <span>Estás en <strong style="color:#1B5FBF">Atención</strong>, km 120. Lo que marques abajo mueve el avión. De ahí en adelante lo lleva Back Office.</span>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="col-r">
+
+        <section class="phone">
+          <div class="phone-top">
+            <span class="dot"></span>
+            <span class="t">Llamada en curso</span>
+            <span class="m">navegador · WebRTC</span>
+          </div>
+
+          <div style="display:flex;align-items:flex-end;gap:16px">
+            <span class="timer" id="reloj">02:34</span>
+            <div class="wave" id="onda"></div>
+          </div>
+
+          <div class="cid">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A867E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>
+            <span class="k">Saliendo como</span>
+            <span class="v">+34 919 970 245</span>
+            <span class="k">Madrid</span>
+          </div>
+
+          <div class="keys">
+            <button type="button" class="key" id="mic" aria-pressed="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg>
+              <span id="mic-txt">Micrófono</span>
+            </button>
+            <button type="button" class="key">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" aria-hidden="true"><circle cx="5" cy="5" r="1.4"/><circle cx="12" cy="5" r="1.4"/><circle cx="19" cy="5" r="1.4"/><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/><circle cx="5" cy="19" r="1.4"/><circle cx="12" cy="19" r="1.4"/><circle cx="19" cy="19" r="1.4"/></svg>
+              Teclado
+            </button>
+            <button type="button" class="key">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5l3 2"/></svg>
+              Grabar
+            </button>
+            <button type="button" class="key hang" aria-label="Colgar la llamada">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5a15 15 0 0 1 20 0v3.2a1.6 1.6 0 0 1-1.7 1.6l-3.3-.4a1.6 1.6 0 0 1-1.4-1.3l-.3-1.6a13 13 0 0 0-6.6 0l-.3 1.6a1.6 1.6 0 0 1-1.4 1.3l-3.3.4A1.6 1.6 0 0 1 2 12.7z"/></svg>
+              Colgar
+            </button>
+          </div>
+        </section>
+
+        <section class="card stack" style="flex-grow:1">
+          <h2 class="eyebrow">Puerta 2 · Atención</h2>
+
+          <div class="tips">
+            <label class="tip"><input type="radio" name="tip" value="venta" checked><span class="tip-t">Venta cerrada</span><span class="tip-h">abre Grabación</span></label>
+            <label class="tip"><input type="radio" name="tip" value="agenda"><span class="tip-t">Agenda</span><span class="tip-h">fija día y hora</span></label>
+            <label class="tip"><input type="radio" name="tip" value="iloc"><span class="tip-t">Ilocalizable</span><span class="tip-h">reintento en 2 h</span></label>
+            <label class="tip"><input type="radio" name="tip" value="no"><span class="tip-t">No le interesa</span><span class="tip-h">la venta cae</span></label>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;flex-grow:1">
+            <label class="lbl" for="notas" style="font-weight:600">Notas para Back Office</label>
+            <textarea class="field" id="notas" placeholder="Qué ha dicho, objeciones, qué comprobar…" style="flex-grow:1"></textarea>
+          </div>
+
+          <div style="display:flex;gap:10px">
+            <button type="button" class="btn btn-lg" style="flex-grow:1">Guardar</button>
+            <button type="button" class="btn btn-go btn-lg" style="flex-grow:2">Guardar y siguiente lead</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/app.js"></script>
+<script src="/llamada/app.js"></script>
+</body>
+</html>

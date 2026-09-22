@@ -1,0 +1,48 @@
+/* ==================== pantalla de llamada ==================== */
+
+.split { flex-grow: 1; display: flex; gap: 18px; align-items: flex-start; }
+.col-l { width: 660px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
+.col-r { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; }
+.pair { display: flex; flex-direction: column; gap: 3px; }
+.pair dt { font-size: 12px; color: var(--ink-2); }
+.pair dd { margin: 0; font-size: 14px; font-weight: 600; }
+.kv { display: flex; align-items: center; gap: 12px; }
+.kv-k { width: 86px; flex-shrink: 0; font-size: 12px; color: var(--ink-2); }
+.kv-v { font-size: 13px; font-weight: 600; }
+
+/* el softphone: azul GoodCall profundo, nunca negro */
+.phone {
+  background: linear-gradient(150deg, var(--azul-hon), var(--azul-mas) 68%, #0F3A72);
+  border-radius: var(--r-lg); padding: 21px 23px;
+  display: flex; flex-direction: column; gap: 17px;
+  box-shadow: 0 8px 28px rgba(20,73,143,.28);
+}
+.phone-top { display: flex; align-items: center; gap: 9px; }
+.phone-top .t { font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.88); letter-spacing: .06em; text-transform: uppercase; flex-grow: 1; }
+.phone-top .m { font-size: 11px; color: rgba(255,255,255,.62); font-family: var(--mono); }
+.timer { font-family: var(--mono); font-size: 44px; font-weight: 500; color: #FFFFFF; line-height: 1; letter-spacing: -.025em; }
+.wave { flex-grow: 1; display: flex; align-items: flex-end; gap: 3px; height: 34px; }
+.wave i { flex-grow: 1; max-width: 5px; border-radius: 2px; background: rgba(255,255,255,.28); display: block; }
+.wave i.on { background: #86DCB2; }
+.cid { display: flex; align-items: center; gap: 10px; padding: 10px 13px; border-radius: var(--r-md); background: rgba(255,255,255,.13); }
+.cid .k { font-size: 11.5px; color: rgba(255,255,255,.72); }
+.cid .v { font-size: 12px; color: #FFFFFF; font-weight: 600; font-family: var(--mono); flex-grow: 1; }
+.keys { display: flex; gap: 9px; }
+.key {
+  flex-grow: 1; flex-basis: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 0; border: 0; border-radius: var(--r-md);
+  background: rgba(255,255,255,.14); color: #FFFFFF; font-size: 11.5px; font-weight: 600; cursor: pointer;
+}
+.key:hover { background: rgba(255,255,255,.24); }
+.key.hang, .key.muted { background: var(--rojo); }
+.key.hang:hover, .key.muted:hover { background: var(--rojo-hon); }
+
+.tips { display: flex; flex-direction: column; gap: 6px; }
+.tip { display: flex; align-items: center; gap: 11px; min-height: 44px; padding: 10px 13px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); cursor: pointer; }
+.tip:hover { background: var(--surface-2); }
+.tip input { width: 17px; height: 17px; accent-color: var(--azul); flex-shrink: 0; margin: 0; }
+.tip-t { flex-grow: 1; font-size: 14px; font-weight: 600; }
+.tip-h { font-size: 12px; color: var(--ink-2); }
+.tip:has(input:checked) { border-color: var(--azul); background: var(--azul-sua); }

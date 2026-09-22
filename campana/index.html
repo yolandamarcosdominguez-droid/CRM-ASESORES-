@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaña · CRM Campaña</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/common.css">
+<link rel="stylesheet" href="/campana/style.css">
+</head>
+<body data-pagina="campana" data-rol-defecto="gerencia">
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Navegación principal"></nav>
+
+  <main class="main">
+
+    <div class="rolebar" id="rolebar"></div>
+
+    <div class="head">
+      <div class="head-txt">
+        <h1>Campaña</h1>
+        <p class="sub">Últimos 10 días · equipo en Lima, mercado España</p>
+      </div>
+      <div class="clocks" id="clocks"></div>
+    </div>
+
+    <div class="tiles">
+      <div class="card tile">
+        <span class="tile-k">Leads recibidos</span>
+        <span class="tile-v">1.240</span>
+        <span class="tile-s">4,18 € de coste medio</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Aterrizadas · total</span>
+        <span class="tile-v">331</span>
+        <span class="tile-s">26,7 % sobre lead</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Parciales</span>
+        <span class="tile-v">71</span>
+        <span class="tile-s warn">móviles cobrados, fibra no</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Caídas</span>
+        <span class="tile-v">96</span>
+        <span class="tile-s">la mitad, en Seguimiento</span>
+      </div>
+    </div>
+
+    <div class="panels">
+
+      <section class="card panel-wide">
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div class="head-txt">
+            <h2 class="ttl">Aterrizajes por día</h2>
+            <span class="ttl-sub">Ventas que completaron todas las puertas, y las que dejaron la fibra colgando</span>
+          </div>
+          <div class="legend" style="padding-top:2px">
+            <span><i class="swatch" style="background:#0E7A50"></i>Total</span>
+            <span><i class="swatch" style="background:#2a78d6"></i>Parcial</span>
+          </div>
+        </div>
+
+        <div class="plot">
+          <div class="yaxis"><span>60</span><span>45</span><span>30</span><span>15</span><span>0</span></div>
+          <div class="plotarea">
+            <div class="grid"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="bars" id="bars"></div>
+            <div class="xaxis" id="xaxis"></div>
+            <div class="tip-chart" id="tip">
+              <span class="d" id="tip-d"></span>
+              <span class="r"><i class="sq" style="background:#0E7A50"></i><span>Total</span><b id="tip-a"></b></span>
+              <span class="r"><i class="sq" style="background:#2a78d6"></i><span>Parcial</span><b id="tip-b"></b></span>
+            </div>
+          </div>
+        </div>
+
+        <details class="data">
+          <summary>Ver los datos en tabla</summary>
+          <table>
+            <caption>Aterrizajes completos y parciales, por día</caption>
+            <thead><tr><th scope="col">Día</th><th scope="col">Total</th><th scope="col">Parcial</th></tr></thead>
+            <tbody id="tabla-datos"></tbody>
+          </table>
+        </details>
+      </section>
+
+      <section class="card panel-side">
+        <div>
+          <h2 class="ttl">Dónde se cae la venta</h2>
+          <span class="ttl-sub">Las seis puertas, en orden</span>
+        </div>
+        <div class="funnel" id="funnel"></div>
+      </section>
+    </div>
+
+    <section class="card" style="flex-grow:1;padding:16px 20px">
+      <h2 class="ttl" style="margin-bottom:10px">Asesores</h2>
+      <table class="grid-tbl">
+        <thead>
+          <tr>
+            <th scope="col">Asesor</th>
+            <th scope="col" style="width:110px">Llamadas</th>
+            <th scope="col" style="width:110px">Contacto</th>
+            <th scope="col" style="width:100px">Total</th>
+            <th scope="col" style="width:100px">Parcial</th>
+            <th scope="col" style="width:130px">1ª llamada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><span class="who"><i>LM</i><b>Lucía Márquez</b></span></th>
+            <td>412</td><td>76,4 %</td><td>48</td><td>6</td><td>1m 52s</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="who"><i>AS</i><b>Andrés Soler</b></span></th>
+            <td>388</td><td>72,1 %</td><td>41</td><td>9</td><td>2m 20s</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="who"><i>JR</i><b>Julio Reátegui</b></span></th>
+            <td>356</td><td>68,9 %</td><td>37</td><td>11</td><td>3m 04s</td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="who"><i>PC</i><b>Paula Cifuentes</b></span></th>
+            <td>291</td><td>61,2 %</td><td>24</td><td>14</td><td class="slow">6m 41s</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<script src="/assets/js/app.js"></script>
+<script src="/campana/app.js"></script>
+</body>
+</html>

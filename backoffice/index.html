@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La cubierta · Back Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/common.css">
+<link rel="stylesheet" href="/backoffice/style.css">
+<link rel="stylesheet" href="/assets/css/cubierta.css">
+</head>
+<body data-pagina="deck" data-rol-defecto="backoffice">
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Navegación principal"></nav>
+
+  <main class="main">
+
+    <div class="rolebar" id="rolebar"></div>
+
+    <div class="deck-bar">
+      <h1>La cubierta</h1>
+
+      <div class="kpi-mini" role="group" aria-label="Resumen y filtro rápido">
+        <button type="button" class="oro" data-f="total" aria-pressed="false"><b id="k-total">0</b><span>Aterrizadas</span></button>
+        <button type="button" data-f="parcial" aria-pressed="false"><b id="k-parcial">0</b><span>Parciales</span></button>
+        <button type="button" class="rojo" data-f="inc" aria-pressed="false"><b id="k-inc">0</b><span>Incidencias</span></button>
+        <button type="button" data-f="caido" aria-pressed="false"><b id="k-caido">0</b><span>Caídas</span></button>
+        <button type="button" data-f="vuelo" aria-pressed="false"><b id="k-vuelo">0</b><span>En vuelo</span></button>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="mini-clock" id="mini-relojes"></div>
+
+      <button type="button" class="btn" id="tog-filtros" aria-expanded="false" aria-controls="filtros">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+        Filtros
+        <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="filtros" id="filtros">
+      <div class="filtros-fila">
+        <span class="lbl">Estado</span>
+        <div class="segmented" id="seg-estado" role="group" aria-label="Filtrar por estado">
+          <button type="button" class="seg" aria-pressed="true" data-f="todo">Todas</button>
+          <button type="button" class="seg" aria-pressed="false" data-f="vuelo">En vuelo</button>
+          <button type="button" class="seg" aria-pressed="false" data-f="retenida">Retenidas</button>
+          <button type="button" class="seg" aria-pressed="false" data-f="parcial">Parciales</button>
+          <button type="button" class="seg" aria-pressed="false" data-f="inc">Con incidencia</button>
+          <button type="button" class="seg" aria-pressed="false" data-f="caido">Caídas</button>
+        </div>
+      </div>
+      <div class="filtros-fila">
+        <span class="lbl">Lo que vendemos</span>
+        <div class="ops" id="ops" role="group" aria-label="Filtrar por operadora vendida"></div>
+      </div>
+      <div class="filtros-fila">
+        <span class="lbl">Ordenar</span>
+        <div class="segmented" role="group" aria-label="Ordenar">
+          <button type="button" class="seg" aria-pressed="true" data-o="km">Por kilómetro</button>
+          <button type="button" class="seg" aria-pressed="false" data-o="cli">Por cliente</button>
+        </div>
+        <div class="spacer"></div>
+        <span class="lbl" id="resumen-flota"></span>
+      </div>
+    </div>
+
+    <section class="deck">
+      <div class="deck-stripe"></div>
+      <div class="lane lane-head">
+        <span></span>
+        <div class="route"><div class="route-head" id="route-head"></div></div>
+        <span></span>
+      </div>
+      <div id="deck"></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Ficha de la venta">
+  <div class="drawer-top">
+    <div class="stripe"></div>
+    <img class="drawer-logo" id="d-logo" src="" alt="">
+    <h3 id="d-cli">—</h3>
+    <p class="sub" id="d-sub">—</p>
+    <button type="button" class="drawer-x" id="d-x" aria-label="Cerrar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111826" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+
+    <div class="origen" id="d-origen"></div>
+
+    <div>
+      <h2 class="eyebrow" style="margin-bottom:11px">Lo que contestó en la encuesta</h2>
+      <dl class="dl" id="d-enc"></dl>
+    </div>
+
+    <div>
+      <h2 class="eyebrow" style="margin-bottom:10px">Argumento aplicado</h2>
+      <div class="argu" id="d-argu"></div>
+    </div>
+
+    <div>
+      <h2 class="eyebrow" style="margin-bottom:10px">Grabación</h2>
+      <div class="rec" id="d-rec"></div>
+    </div>
+
+    <div>
+      <h2 class="eyebrow" style="margin-bottom:12px">La ruta, estación por estación</h2>
+      <div class="steps" id="d-steps"></div>
+    </div>
+
+    <div>
+      <h2 class="eyebrow" style="margin-bottom:10px">Incidencias</h2>
+      <div class="inc-list" id="d-incs"></div>
+    </div>
+  </div>
+</aside>
+
+<script src="/assets/js/app.js"></script>
+<script src="/backoffice/app.js"></script>
+</body>
+</html>

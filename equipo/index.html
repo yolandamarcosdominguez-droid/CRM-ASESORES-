@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Equipo · CRM Campaña</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/css/common.css">
+<link rel="stylesheet" href="/equipo/style.css">
+</head>
+<body data-pagina="equipo" data-rol-defecto="supervisor">
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Navegación principal"></nav>
+
+  <main class="main">
+
+    <div class="rolebar" id="rolebar"></div>
+
+    <div class="head">
+      <div class="head-txt">
+        <h1>Equipo</h1>
+        <p class="sub">Asistencia de hoy y ventas en vuelo, por asesor · turnos en hora de Lima</p>
+      </div>
+      <div class="clocks" id="clocks"></div>
+    </div>
+
+    <div class="tiles">
+      <div class="card tile">
+        <span class="tile-k">Han fichado</span>
+        <span class="tile-v">9 / 11</span>
+        <span class="tile-s">2 sin marcar entrada</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Llegadas tarde</span>
+        <span class="tile-v">2</span>
+        <span class="tile-s">sobre turno de 08:00</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Ventas del equipo</span>
+        <span class="tile-v">47</span>
+        <span class="tile-s">este mes</span>
+      </div>
+      <div class="card tile">
+        <span class="tile-k">Parciales sin cerrar</span>
+        <span class="tile-v">8</span>
+        <span class="tile-s warn">fibra pendiente</span>
+      </div>
+    </div>
+
+    <section class="card" style="padding:0;overflow:hidden">
+      <div style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)">
+        <h2 class="ttl" style="flex-grow:1">Asistencia de hoy</h2>
+        <span class="sub">Turno 08:00–17:00 · hora de Lima</span>
+        <button type="button" class="btn" data-si-no-backoffice hidden>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Avisar a los que faltan
+        </button>
+      </div>
+      <div class="att-row att-head">
+        <span>Persona</span>
+        <span>Rol</span>
+        <span>Entrada</span>
+        <span>Salida</span>
+        <span>Horas</span>
+        <span>Estado</span>
+      </div>
+      <div id="asist"></div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/assets/js/app.js"></script>
+<script src="/equipo/app.js"></script>
+</body>
+</html>

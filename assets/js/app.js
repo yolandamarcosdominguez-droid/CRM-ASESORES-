@@ -8,11 +8,11 @@
   'use strict';
 
   var ROLES = {
-    asesor:      { nombre: 'Asesora',     quien: 'Lucía Márquez', ini: 'LM', sede: 'Lima', casa: 'bandeja.html' },
-    backoffice:  { nombre: 'Back office', quien: 'Nicol Farfán',  ini: 'NF', sede: 'Lima', casa: 'backoffice.html' },
-    coordinador: { nombre: 'Coordinador', quien: 'Aarón Peralta', ini: 'AP', sede: 'Lima', casa: 'equipo.html' },
-    supervisor:  { nombre: 'Supervisora', quien: 'Allyson Vega',  ini: 'AV', sede: 'Lima', casa: 'equipo.html' },
-    gerencia:    { nombre: 'Gerencia',    quien: 'Darling Ruiz',  ini: 'DR', sede: 'Lima', casa: 'campana.html' }
+    asesor:      { nombre: 'Asesora',     quien: 'Lucía Márquez', ini: 'LM', sede: 'Lima', casa: '/bandeja.html' },
+    backoffice:  { nombre: 'Back office', quien: 'Nicol Farfán',  ini: 'NF', sede: 'Lima', casa: '/backoffice.html' },
+    coordinador: { nombre: 'Coordinador', quien: 'Aarón Peralta', ini: 'AP', sede: 'Lima', casa: '/equipo.html' },
+    supervisor:  { nombre: 'Supervisora', quien: 'Allyson Vega',  ini: 'AV', sede: 'Lima', casa: '/equipo.html' },
+    gerencia:    { nombre: 'Gerencia',    quien: 'Darling Ruiz',  ini: 'DR', sede: 'Lima', casa: '/campana.html' }
   };
 
   var ICON = {
@@ -25,11 +25,11 @@
 
   // Quién ve qué. El asesor entra a la cubierta pero solo ve SUS ventas.
   var NAV = [
-    { id: 'bandeja', href: 'bandeja.html',    txt: 'Bandeja',     icon: 'bandeja', roles: ['asesor', 'coordinador', 'supervisor', 'gerencia'], count: '14' },
-    { id: 'llamada', href: 'llamada.html',    txt: 'Llamada',     icon: 'llamada', roles: ['asesor', 'coordinador', 'supervisor', 'gerencia'] },
-    { id: 'deck',    href: 'backoffice.html', txt: 'La cubierta', icon: 'deck',    roles: ['asesor', 'backoffice', 'coordinador', 'supervisor', 'gerencia'] },
-    { id: 'equipo',  href: 'equipo.html',     txt: 'Equipo',      icon: 'equipo',  roles: ['coordinador', 'supervisor', 'gerencia'] },
-    { id: 'campana', href: 'campana.html',    txt: 'Campaña',     icon: 'campana', roles: ['supervisor', 'gerencia'] }
+    { id: 'bandeja', href: '/bandeja.html',    txt: 'Bandeja',     icon: 'bandeja', roles: ['asesor', 'coordinador', 'supervisor', 'gerencia'], count: '14' },
+    { id: 'llamada', href: '/llamada.html',    txt: 'Llamada',     icon: 'llamada', roles: ['asesor', 'coordinador', 'supervisor', 'gerencia'] },
+    { id: 'deck',    href: '/backoffice.html', txt: 'La cubierta', icon: 'deck',    roles: ['asesor', 'backoffice', 'coordinador', 'supervisor', 'gerencia'] },
+    { id: 'equipo',  href: '/equipo.html',     txt: 'Equipo',      icon: 'equipo',  roles: ['coordinador', 'supervisor', 'gerencia'] },
+    { id: 'campana', href: '/campana.html',    txt: 'Campaña',     icon: 'campana', roles: ['supervisor', 'gerencia'] }
   ];
 
   function leer(k, d) { try { return localStorage.getItem(k) || d; } catch (e) { return d; } }
@@ -198,7 +198,7 @@
       '<label class="lbl" for="rolsel">Viendo como</label>' +
       '<select id="rolsel">' + ops + '</select>' +
       '<span class="note" id="rolnota"></span>' +
-      '<a class="lbl" href="index.html" style="margin-left:auto;font-weight:700;white-space:nowrap">Cambiar de puesto</a>';
+      '<a class="lbl" href="/index.html" style="margin-left:auto;font-weight:700;white-space:nowrap">Cambiar de puesto</a>';
 
     var NOTA = {
       asesor:      'Recibe leads, llama y ve el estado de SUS ventas. No mueve estaciones.',

@@ -1,0 +1,510 @@
+(function () {
+  'use strict';
+
+  /* DOS operadoras por venta, y no hay que confundirlas:
+
+     VENDEMOS — solo estas cinco. Es la librea del avión.
+       Orange y Vodafone pintan el fuselaje entero de su color y llevan
+       el wordmark en blanco, recortado del logo oficial. Yoigo, MásMóvil
+       y Lowi conservan fuselaje blanco y sus colores propios.
+       `h` es la altura óptica: un logo 1:1 y uno 6,7:1 no pueden medir
+       lo mismo de alto o uno sale diminuto y el otro enorme.
+
+     ORIGEN — de dónde se porta el cliente. Puede ser cualquiera, también
+       Movistar o Digi, que NO vendemos. Sale en la ficha. */
+
+  var VENDEMOS = {
+    ORANGE:   { n: 'Orange',   c: '#FF7900', fuse: '#FF7900', art: '/assets/logos/librea-orange.svg',   h: 17 },
+    VODAFONE: { n: 'Vodafone', c: '#E60000', fuse: '#E60000', art: '/assets/logos/librea-vodafone.svg', h: 15 },
+    YOIGO:    { n: 'Yoigo',    c: '#400B81', fuse: '#FFFFFF', art: '/assets/logos/yoigo.svg',    h: 17 },
+    MASMOVIL: { n: 'MásMóvil', c: '#E6B800', fuse: '#FFFFFF', art: '/assets/logos/masmovil.svg', h: 13 },
+    LOWI:     { n: 'Lowi',     c: '#7A9E00', fuse: '#FFFFFF', art: '/assets/logos/lowi.svg',     h: 19 }
+  };
+
+  var ORIGEN = {
+    ORANGE:   { n: 'Orange',   f: '/assets/logos/orange.svg' },
+    VODAFONE: { n: 'Vodafone', f: '/assets/logos/vodafone.svg' },
+    YOIGO:    { n: 'Yoigo',    f: '/assets/logos/yoigo.svg' },
+    MASMOVIL: { n: 'MásMóvil', f: '/assets/logos/masmovil.svg' },
+    LOWI:     { n: 'Lowi',     f: '/assets/logos/lowi.svg' },
+    MOVISTAR: { n: 'Movistar', f: '/assets/logos/movistar.svg' },
+    DIGI:     { n: 'Digi',     f: '/assets/logos/digi.svg' }
+  };
+  // el chip de la fila usa el logo normal, no la librea recortada
+  var CHIP = { ORANGE: '/assets/logos/orange.svg', VODAFONE: '/assets/logos/vodafone.svg', YOIGO: '/assets/logos/yoigo.svg',
+               MASMOVIL: '/assets/logos/masmovil.svg', LOWI: '/assets/logos/lowi.svg' };
+
+  var EST = [
+    { n: 'Lead',        km: 0,    fallos: [] },
+    { n: 'Atención',    km: 120,  fallos: [['ILOCALIZABLE', 0], ['AGENDA', 0], ['NO INTERESA', 1]] },
+    { n: 'Grabación',   km: 320,  fallos: [['SIN GRABACIÓN', 0], ['GRABACIÓN NO VÁLIDA', 0], ['SE ARREPIENTE', 1]] },
+    { n: 'Seguimiento', km: 620,  fallos: [['DEUDA', 0], ['NO PASA FILTRO', 1], ['PENALIZADO', 1], ['CANCELA', 1]] },
+    { n: 'Móviles',     km: 1100, fallos: [['ILOCALIZABLE', 0], ['AGENDA', 0], ['INCIDENCIA SMART', 0]] },
+    { n: 'Fibra',       km: 1800, fallos: [['AGENDA', 0], ['INCIDENCIA TÉCNICA', 0], ['SIN COBERTURA', 1]] }
+  ];
+  var DESTINO = 1800;
+
+  var ARG = {
+    ahorro:  ['Ahorro sobre factura', 'Se le compara su factura actual línea a línea y se garantiza por escrito que paga menos. Cierre con el importe exacto, nunca con porcentajes.'],
+    fibra:   ['Fibra como gancho',    'Entra por la fibra, que es lo que más le duele, y las líneas móviles se suman después como refuerzo del mismo precio.'],
+    familia: ['Pack familiar',        'Se vende el conjunto de líneas para toda la casa: el precio por línea baja cuanto más se agrupa. Funciona con hogares de 4 o más.'],
+    permanencia: ['Sin permanencia',  'El argumento es la libertad: sin compromiso de estancia y sin penalización si se va. Recomendado cuando viene escaldado de la anterior.']
+  };
+
+  var VENTAS = [
+    { cli: 'María Guadalupe', dni: '73073737', ase: 'Lucía Márquez', prod: '6 líneas + 1GB fibra',
+      op: 'ORANGE', origen: 'MOVISTAR', argu: 'familia', rec: { dur: '8:12', f: '19/09 17:04' },
+      enc: { i: 'Bajar la factura', g: '104 €/mes', l: '6 líneas', c: 'Este mes' },
+      g: ['ok','ok','ok','ok','ok','ok'],
+      inc: [{ km: 320, t: 'INCIDENCIA COMERCIAL', d: 'Pidió cambiar de tarifa antes de firmar', abierta: false }] },
+    { cli: 'Ramón Cuesta', dni: '51290384', ase: 'Andrés Soler', prod: '4 líneas + 600 fibra',
+      op: 'MASMOVIL', origen: 'VODAFONE', argu: 'ahorro', rec: { dur: '6:41', f: '20/09 11:22' },
+      enc: { i: 'Más datos móviles', g: '78 €/mes', l: '4 líneas', c: 'Este mes' },
+      g: ['ok','ok','ok','ok','ok','warn'], motivo: 'FIBRA · AGENDA',
+      inc: [{ km: 1800, t: 'INCIDENCIA TÉCNICA', d: 'El técnico no pudo entrar al portal', abierta: true }] },
+    { cli: 'Teresa Olmo', dni: '44810229', ase: 'Lucía Márquez', prod: '3 líneas + 1GB fibra',
+      op: 'VODAFONE', origen: 'MOVISTAR', argu: 'fibra', rec: { dur: '9:05', f: '18/09 16:38' },
+      enc: { i: 'Fibra más rápida', g: '86 €/mes', l: '3 líneas', c: 'Cuanto antes' },
+      g: ['ok','ok','ok','ok','ok','warn'], motivo: 'FIBRA · INCIDENCIA TÉCNICA',
+      inc: [{ km: 1100, t: 'INCIDENCIA SMART', d: 'Una de las líneas no portó', abierta: false },
+            { km: 1800, t: 'INCIDENCIA TÉCNICA', d: 'Sin arqueta en la calle', abierta: true }] },
+    { cli: 'Luis Chamorro', dni: '39557101', ase: 'Andrés Soler', prod: '2 líneas + 600 fibra',
+      op: 'YOIGO', origen: 'DIGI', argu: 'permanencia', rec: { dur: '5:18', f: '21/09 10:11' },
+      enc: { i: 'Salir de permanencia', g: '54 €/mes', l: '2 líneas', c: 'Este mes' },
+      g: ['ok','ok','ok','ok','todo','todo'], inc: [] },
+    { cli: 'Pilar Ferrán', dni: '28734655', ase: 'Nuria Tejedor', prod: '6 líneas + 1GB fibra',
+      op: 'LOWI', origen: 'ORANGE', argu: 'familia', rec: { dur: '7:33', f: '20/09 18:47' },
+      enc: { i: 'Unificar la familia', g: '118 €/mes', l: '6 líneas', c: 'Próximo mes' },
+      g: ['ok','ok','ok','warn','todo','todo'], motivo: 'SEGUIMIENTO · DEUDA',
+      inc: [{ km: 620, t: 'INCIDENCIA COMERCIAL', d: 'Deuda pendiente con la operadora anterior', abierta: true }] },
+    { cli: 'Óscar Benites', dni: '60119847', ase: 'Lucía Márquez', prod: '1 línea + 1GB fibra',
+      op: 'ORANGE', origen: 'DIGI', argu: 'fibra', rec: { dur: '4:02', f: '21/09 12:55' },
+      enc: { i: 'Solo fibra', g: '41 €/mes', l: '1 línea', c: 'Este mes' },
+      g: ['ok','ok','warn','todo','todo','todo'], motivo: 'GRABACIÓN · SIN GRABACIÓN', inc: [] },
+    { cli: 'Elena Prats', dni: '77402318', ase: 'Nuria Tejedor', prod: '5 líneas + 600 fibra',
+      op: 'MASMOVIL', origen: 'MOVISTAR', argu: 'ahorro', rec: { dur: '6:09', f: '21/09 09:30' },
+      enc: { i: 'Bajar la factura', g: '97 €/mes', l: '5 líneas', c: 'Sin prisa' },
+      g: ['ok','warn','todo','todo','todo','todo'], motivo: 'ATENCIÓN · ILOCALIZABLE', inc: [] },
+    { cli: 'Ana Villacorta', dni: '31908276', ase: 'Andrés Soler', prod: '3 líneas + 600 fibra',
+      op: 'VODAFONE', origen: 'YOIGO', argu: 'ahorro', rec: { dur: '7:50', f: '19/09 13:18' },
+      enc: { i: 'Bajar la factura', g: '69 €/mes', l: '3 líneas', c: 'Este mes' },
+      g: ['ok','ok','ok','bad','todo','todo'], motivo: 'SEGUIMIENTO · NO PASA FILTRO',
+      inc: [{ km: 620, t: 'INCIDENCIA COMERCIAL', d: 'Titular no coincide con el DNI', abierta: true }] },
+    { cli: 'Jorge Salazar', dni: '85230014', ase: 'Lucía Márquez', prod: '2 líneas + 1GB fibra',
+      op: 'YOIGO', origen: 'ORANGE', argu: 'permanencia', rec: { dur: '3:27', f: '21/09 15:02' },
+      enc: { i: 'Curiosidad', g: '62 €/mes', l: '2 líneas', c: 'No lo tiene claro' },
+      g: ['ok','bad','todo','todo','todo','todo'], motivo: 'ATENCIÓN · NO INTERESA', inc: [] },
+    { cli: 'Nuria Tejedor', dni: '19845502', ase: 'Andrés Soler', prod: '6 líneas + 600 fibra',
+      op: 'LOWI', origen: 'MOVISTAR', argu: 'familia', rec: { dur: '8:44', f: '22/09 09:12' },
+      enc: { i: 'Unificar la familia', g: '110 €/mes', l: '6 líneas', c: 'Este mes' },
+      g: ['ok','ok','todo','todo','todo','todo'], inc: [] }
+  ];
+
+  /* Silueta cenital: morro en punta a la derecha, alas EN FLECHA hacia
+     atrás y estabilizadores de cola. Las alas van primero para que el
+     fuselaje quede encima y aloje la librea. */
+  var AVION =
+    '<svg viewBox="0 0 170 64" aria-hidden="true">' +
+      '<path class="alas" d="M108 27 L64 3 L53 5 L84 29 Z M108 37 L64 61 L53 59 L84 35 Z ' +
+        'M40 28 L16 14 L8 16 L30 29 Z M40 36 L16 50 L8 48 L30 35 Z"/>' +
+      '<path class="fuse" d="M18 32 C18 25 23.5 20 36 19.5 L134 18.5 C150 18.5 162 25 168 32 ' +
+        'C162 39 150 45.5 134 45.5 L36 44.5 C23.5 44 18 39 18 32 Z"/>' +
+    '</svg>';
+
+  var CHECK = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>';
+  var CROSS = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+  var PAUSE = '<svg width="9" height="9" viewBox="0 0 24 24" fill="#C8102E" aria-hidden="true"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg>';
+  var STAR  = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="m12 2 3 6.6 7 .9-5 5 1.3 7L12 18.2 5.7 21.5 7 14.5l-5-5 7-.9z"/></svg>';
+  var PLAY  = '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  var ICO = {
+    vuelo:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>',
+    parcial:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 0 1 0 18"/><path d="M12 3a9 9 0 0 0 0 18" stroke-dasharray="2 3"/></svg>',
+    retenida: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4.5" height="16" rx="1.5"/><rect x="13.5" y="4" width="4.5" height="16" rx="1.5"/></svg>',
+    caido:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    total:    '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.6 7 .9-5 5 1.3 7L12 18.2 5.7 21.5 7 14.5l-5-5 7-.9z"/></svg>'
+  };
+  var ETIQ = { vuelo: 'EN VUELO', parcial: 'PARCIAL', retenida: 'RETENIDA', caido: 'CAÍDA', total: 'ATERRIZÓ' };
+
+  function pct(km) { return (km / DESTINO) * 100; }
+  function miles(n) { return n.toLocaleString('es-ES'); }
+  function iniciales(n) { return n.split(' ').map(function (w) { return w[0]; }).join('').slice(0, 2).toUpperCase(); }
+
+  document.getElementById('route-head').innerHTML = EST.map(function (e) {
+    return '<span style="left:' + pct(e.km) + '%"><b>' + e.n + '</b><i>km ' + miles(e.km) + '</i></span>';
+  }).join('');
+
+  var opFiltro = '';
+  document.getElementById('ops').innerHTML =
+    '<button type="button" class="op-btn" data-op="" aria-pressed="true" style="--op:#8792A4">' +
+      '<span class="pt"></span><span style="font-size:11.5px;font-weight:700;color:#5A6577">Todas</span></button>' +
+    Object.keys(VENDEMOS).map(function (k) {
+      var o = VENDEMOS[k];
+      return '<button type="button" class="op-btn" data-op="' + k + '" aria-pressed="false" style="--op:' + o.c + '" title="' + o.n + '">' +
+        '<span class="pt"></span><img src="' + CHIP[k] + '" alt="' + o.n + '"></button>';
+    }).join('');
+
+  function dondeVa(g) {
+    for (var i = 0; i < g.length; i++) if (g[i] !== 'ok') return i;
+    return g.length - 1;
+  }
+
+  /* El estado SALE de la ruta. Nadie lo teclea. */
+  function estado(v) {
+    var g = v.g;
+    if (g.indexOf('bad') !== -1) return 'caido';
+    if (g.every(function (x) { return x === 'ok'; })) return 'total';
+    if (g.slice(0, 5).every(function (x) { return x === 'ok'; })) return 'parcial';
+    if (g.indexOf('warn') !== -1) return 'retenida';
+    return 'vuelo';
+  }
+
+  var deck = document.getElementById('deck');
+  var puedeMover = window.CRM && window.CRM.rol === 'backoffice';
+  var filtro = 'todo', orden = 'km';
+
+  function marcasHTML(v) {
+    var i = dondeVa(v.g);
+    return v.g.map(function (e, j) {
+      if (j === i) return '';
+      var cls = e === 'ok' ? (j === 5 ? 'sm-fin' : 'sm-ok') : e === 'warn' ? 'sm-warn' : e === 'bad' ? 'sm-bad' : 'sm-todo';
+      var ico = e === 'ok' ? (j === 5 ? STAR : CHECK) : e === 'bad' ? CROSS : e === 'warn' ? PAUSE : '';
+      return '<span class="stopmark ' + cls + '" style="left:' + pct(EST[j].km) + '%" title="' + EST[j].n + '">' + ico + '</span>';
+    }).join('');
+  }
+
+  function incsHTML(v) {
+    return (v.inc || []).map(function (x) {
+      return '<span class="inc ' + (x.abierta ? 'abierta' : 'resuelta') + '" style="left:' + pct(x.km) + '%">' +
+        '<span class="inc-tip">' + x.t + ' · ' + x.d + '</span>' +
+        '<span class="inc-dot">!</span><span class="inc-stem"></span></span>';
+    }).join('');
+  }
+
+  function claseJet(v) {
+    var st = estado(v), i = dondeVa(v.g);
+    if (st === 'total') return 'posada';
+    if (v.g[i] === 'bad') return 'caida';
+    if (v.g[i] === 'warn') return 'retenida';
+    return 'volando';
+  }
+
+  function refresca(v, animar) {
+    var el = v._el; if (!el) return;
+    var i = dondeVa(v.g), st = estado(v), km = EST[i].km, d = pct(km);
+
+    el.querySelector('.marks').innerHTML = marcasHTML(v);
+    el.querySelector('.incs').innerHTML = incsHTML(v);
+
+    var cov = el.querySelector('.covered');
+    var jet = el.querySelector('.jet');
+    var slot = el.querySelector('.jet-slot');
+    var wake = el.querySelector('.wake');
+
+    cov.classList.toggle('oro', st === 'total');
+    jet.className = 'jet ' + claseJet(v);
+    jet.setAttribute('aria-label', v.cli + ', ' + VENDEMOS[v.op].n + ', en ' + EST[i].n + ', km ' + miles(km));
+
+    var mover = function () {
+      var antes = slot.style.left;
+      cov.style.width = d + '%';
+      slot.style.left = d + '%';
+      wake.style.left = Math.max(0, d - 8) + '%';
+      wake.style.width = Math.min(8, d) + '%';
+      if (antes !== d + '%' && jet.classList.contains('volando')) {
+        jet.classList.add('moviendo');
+        setTimeout(function () { jet.classList.remove('moviendo'); }, 1720);
+      }
+    };
+    if (animar === false) mover(); else setTimeout(mover, 20);
+
+    var kmEl = el.querySelector('.km');
+    kmEl.className = 'km' + (st === 'total' ? ' oro' : '');
+    kmEl.innerHTML = miles(km) + '<small> / ' + miles(DESTINO) + ' km</small>';
+
+    el.querySelector('.tag').className = 'tag t-' + st;
+    el.querySelector('.tag').innerHTML = ICO[st] + ETIQ[st];
+
+    var why = el.querySelector('.why2');
+    if (v.motivo) { why.textContent = v.motivo; why.hidden = false; } else { why.hidden = true; }
+
+    contar();
+  }
+
+  function contar() {
+    var c = { total: 0, parcial: 0, vuelo: 0, retenida: 0, caido: 0 };
+    var kmTot = 0, enRuta = 0, incAb = 0;
+    VENTAS.forEach(function (v) {
+      var st = estado(v);
+      c[st] += 1;
+      kmTot += EST[dondeVa(v.g)].km;
+      if (st !== 'caido') enRuta += 1;
+      (v.inc || []).forEach(function (x) { if (x.abierta) incAb += 1; });
+    });
+    document.getElementById('k-total').textContent = c.total;
+    document.getElementById('k-parcial').textContent = c.parcial;
+    document.getElementById('k-inc').textContent = incAb;
+    document.getElementById('k-caido').textContent = c.caido;
+    document.getElementById('k-vuelo').textContent = c.vuelo;
+    document.getElementById('resumen-flota').textContent =
+      enRuta + ' de ' + VENTAS.length + ' en ruta · ' + miles(kmTot) + ' km recorridos · ' +
+      miles(Math.round(kmTot / VENTAS.length)) + ' km de media';
+  }
+
+  function pinta() {
+    deck.innerHTML = '';
+    var lista = VENTAS.slice();
+    if (orden === 'cli') lista.sort(function (a, b) { return a.cli.localeCompare(b.cli, 'es'); });
+    else lista.sort(function (a, b) { return EST[dondeVa(b.g)].km - EST[dondeVa(a.g)].km; });
+
+    var n = 0;
+    lista.forEach(function (v) {
+      var st = estado(v);
+      var tieneInc = (v.inc || []).some(function (x) { return x.abierta; });
+      if (opFiltro && v.op !== opFiltro) return;
+      if (filtro === 'inc') { if (!tieneInc) return; }
+      else if (filtro !== 'todo' && filtro !== st) return;
+
+      var o = VENDEMOS[v.op];
+      var fila = document.createElement('div');
+      fila.className = 'lane';
+      fila.style.setProperty('--op', o.c);
+      fila.style.setProperty('--fuse', o.fuse);
+      fila.title = 'Doble clic para abrir la ficha';
+      fila.innerHTML =
+        '<div class="lane-who">' +
+          '<span class="lane-av">' + iniciales(v.cli) + '</span>' +
+          '<span style="min-width:0">' +
+            '<span class="lane-cli">' + v.cli + '</span>' +
+            '<span class="lane-sub">' + v.prod + '</span>' +
+            '<span class="lane-meta">' +
+              '<span class="op-chip"><span class="pt"></span><img src="' + CHIP[v.op] + '" alt="' + o.n + '"></span>' +
+              '<span class="lane-sub">' + v.ase + '</span>' +
+            '</span>' +
+          '</span>' +
+        '</div>' +
+        '<div class="route"><div class="route-in">' +
+          '<span class="asphalt"></span><span class="covered"></span>' +
+          '<span class="wake"></span><span class="finish"></span>' +
+          '<span class="marks"></span><span class="incs"></span>' +
+          '<span class="jet-slot"><span class="jet">' + AVION +
+            '<img class="livery" src="' + o.art + '" alt="' + o.n + '" style="height:' + o.h + 'px"></span></span>' +
+        '</div></div>' +
+        '<div class="lane-end">' +
+          '<span class="km"></span><span class="tag"></span>' +
+          '<div class="lane-act"><span class="why2" hidden></span>' +
+            '<button type="button" class="lane-btn">' + (puedeMover ? 'Mover' : 'Ver') + '</button>' +
+          '</div>' +
+        '</div>';
+      deck.appendChild(fila);
+      v._el = fila;
+
+      fila.querySelector('.lane-btn').addEventListener('click', function (e) { e.stopPropagation(); abre(v); });
+      fila.addEventListener('dblclick', function () { abre(v); });
+
+      (function (venta, retardo) {
+        venta._el.querySelector('.covered').style.width = '0%';
+        venta._el.querySelector('.jet-slot').style.left = '0%';
+        setTimeout(function () { refresca(venta, false); }, retardo);
+      })(v, 90 + n * 95);
+      n += 1;
+    });
+
+    if (!deck.children.length) {
+      deck.innerHTML = '<p class="sub" style="padding:26px 22px;margin:0">Ninguna venta con ese filtro.</p>';
+    }
+    contar();
+  }
+
+  /* ---------- la ficha ---------- */
+
+  var drawer = document.getElementById('drawer');
+  var scrim = document.getElementById('scrim');
+  var actual = null;
+
+  function cierra() {
+    drawer.classList.remove('on');
+    scrim.classList.remove('on');
+    drawer.setAttribute('aria-hidden', 'true');
+    actual = null;
+  }
+  document.getElementById('d-x').addEventListener('click', cierra);
+  scrim.addEventListener('click', cierra);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cierra(); });
+
+  function abre(v) {
+    actual = v;
+    var o = VENDEMOS[v.op], or_ = ORIGEN[v.origen];
+    var logo = document.getElementById('d-logo');
+    logo.src = CHIP[v.op]; logo.alt = o.n;
+    document.getElementById('d-cli').textContent = v.cli;
+    document.getElementById('d-sub').textContent = v.prod + ' · DNI ' + v.dni + ' · ' + v.ase;
+
+    document.getElementById('d-origen').innerHTML =
+      '<span><span class="k">Se porta desde</span><span class="v">' + or_.n + '</span></span>' +
+      '<img src="' + or_.f + '" alt="' + or_.n + '">' +
+      '<svg class="flecha" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+      '<img src="' + CHIP[v.op] + '" alt="' + o.n + '">';
+
+    document.getElementById('d-enc').innerHTML =
+      '<div><dt>Qué pidió</dt><dd>' + v.enc.i + '</dd></div>' +
+      '<div><dt>Gasto actual</dt><dd>' + v.enc.g + '</dd></div>' +
+      '<div><dt>Líneas</dt><dd>' + v.enc.l + '</dd></div>' +
+      '<div><dt>Cuándo</dt><dd>' + v.enc.c + '</dd></div>';
+
+    var a = ARG[v.argu];
+    document.getElementById('d-argu').innerHTML = '<b>' + a[0] + '</b>' + a[1];
+
+    var barras = [7,13,19,11,23,16,9,21,14,25,18,8,17,22,12,20,10,24,15,19,11,16,9,21,13,18,10,22,14,17];
+    document.getElementById('d-rec').innerHTML =
+      '<button type="button" class="rec-play" aria-label="Reproducir la grabación">' + PLAY + '</button>' +
+      '<span class="rec-mid">' +
+        '<span class="rec-wave">' + barras.map(function (h, j) {
+          return '<i class="' + (j < 9 ? 'on' : '') + '" style="height:' + h + 'px"></i>';
+        }).join('') + '</span>' +
+        '<span class="rec-meta">' + v.rec.f + ' · ' + v.ase + '</span>' +
+      '</span>' +
+      '<span class="rec-time">' + v.rec.dur + '</span>';
+
+    pintaCajon();
+    drawer.classList.add('on');
+    scrim.classList.add('on');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+
+  function pintaCajon() {
+    var v = actual; if (!v) return;
+    var i = dondeVa(v.g);
+
+    document.getElementById('d-steps').innerHTML = EST.map(function (e, j) {
+      var s = v.g[j];
+      var cls = s === 'ok' ? (j === 5 ? 'fin' : 'ok') : s === 'bad' ? 'bad' : s === 'warn' ? 'warn' : (j === i ? 'now' : '');
+      var ico = s === 'ok' ? (j === 5 ? STAR : CHECK) : s === 'bad' ? CROSS : s === 'warn' ? PAUSE : '';
+      var caja = '';
+      if (j === i && puedeMover && v.g.indexOf('bad') === -1) {
+        var ultima = j === EST.length - 1;
+        caja = '<div class="step-now-box">' +
+          '<p>El avión está aquí. Si esta estación queda en verde, avanza hasta el km ' +
+            miles(ultima ? DESTINO : EST[j + 1].km) + '.</p>' +
+          '<button type="button" class="pass-btn' + (ultima ? ' oro' : '') + '" data-pasa="' + j + '">' +
+            (ultima ? 'Aterrizar la venta' : 'Pasar ' + e.n) + '</button>' +
+          (e.fallos.length ? '<div class="fails">' + e.fallos.map(function (f) {
+            return '<button type="button" class="fail-btn' + (f[1] ? ' mortal' : '') +
+              '" data-falla="' + j + '" data-txt="' + f[0] + '" data-mortal="' + f[1] + '">' + f[0] + '</button>';
+          }).join('') + '</div>' : '') +
+        '</div>';
+      }
+      return '<div class="step">' +
+        '<div class="step-rail"><span class="step-dot ' + cls + '">' + ico + '</span>' +
+          (j < EST.length - 1 ? '<span class="step-line"></span>' : '') + '</div>' +
+        '<div class="step-body"><span class="step-n">' + e.n + '</span> ' +
+          '<span class="step-km">km ' + miles(e.km) + '</span>' + caja + '</div>' +
+      '</div>';
+    }).join('');
+
+    var incs = v.inc || [];
+    document.getElementById('d-incs').innerHTML = incs.length
+      ? incs.map(function (x) {
+          return '<div class="inc-item ' + (x.abierta ? 'abierta' : '') + '">' +
+            '<span class="inc-dot" style="flex-shrink:0' + (x.abierta ? '' : ';background:#fff;color:#8792A4;box-shadow:0 0 0 2px #C6CEDA') + '">!</span>' +
+            '<span style="min-width:0"><b>' + x.t + (x.abierta ? '' : ' · resuelta') + '</b><span>' + x.d + '</span></span>' +
+            '<span class="badge-km">km ' + miles(x.km) + '</span></div>';
+        }).join('')
+      : '<p class="sub" style="margin:0">Ninguna. Esta venta va limpia.</p>';
+
+    document.querySelectorAll('[data-pasa]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        actual.g[+b.dataset.pasa] = 'ok';
+        actual.motivo = '';
+        refresca(actual, true);
+        pintaCajon();
+      });
+    });
+    document.querySelectorAll('[data-falla]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var j = +b.dataset.falla, txt = b.dataset.txt, mortal = b.dataset.mortal === '1';
+        actual.g[j] = mortal ? 'bad' : 'warn';
+        actual.motivo = EST[j].n.toUpperCase() + ' · ' + txt;
+        if (txt.indexOf('INCIDENCIA') === 0) {
+          actual.inc = actual.inc || [];
+          actual.inc.push({ km: EST[j].km, t: txt, d: 'Registrada desde Back Office', abierta: true });
+        }
+        refresca(actual, true);
+        pintaCajon();
+      });
+    });
+  }
+
+  /* ---------- filtros ---------- */
+
+  function sincroniza() {
+    document.querySelectorAll('#seg-estado .seg').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.f === filtro));
+    });
+    document.querySelectorAll('.kpi-mini button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.f === filtro));
+    });
+  }
+
+  function setFiltro(f) {
+    filtro = (filtro === f && f !== 'todo') ? 'todo' : f;   // repulsar lo quita
+    sincroniza();
+    pinta();
+  }
+
+  document.querySelector('.kpi-mini').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) setFiltro(b.dataset.f);
+  });
+  document.getElementById('seg-estado').addEventListener('click', function (e) {
+    var b = e.target.closest('.seg');
+    if (b) setFiltro(b.dataset.f);
+  });
+  document.querySelectorAll('[data-o]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      orden = b.dataset.o;
+      b.parentNode.querySelectorAll('.seg').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      pinta();
+    });
+  });
+  document.getElementById('ops').addEventListener('click', function (e) {
+    var b = e.target.closest('.op-btn');
+    if (!b) return;
+    opFiltro = b.dataset.op;
+    this.querySelectorAll('.op-btn').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    pinta();
+  });
+
+  var tog = document.getElementById('tog-filtros');
+  var panel = document.getElementById('filtros');
+  function pintaPanel(abierto) {
+    panel.classList.toggle('on', abierto);
+    tog.setAttribute('aria-expanded', String(abierto));
+    tog.querySelector('.chev').classList.toggle('on', abierto);
+    try { localStorage.setItem('crm-filtros', abierto ? '1' : '0'); } catch (e) { /* modo privado */ }
+  }
+  tog.addEventListener('click', function () { pintaPanel(!panel.classList.contains('on')); });
+  var guardado = '0';
+  try { guardado = localStorage.getItem('crm-filtros') || '0'; } catch (e) { /* modo privado */ }
+  pintaPanel(guardado === '1');
+
+  /* ---------- relojes ---------- */
+
+  function hora(tz) {
+    return new Intl.DateTimeFormat('es-ES', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+  }
+  var mr = document.getElementById('mini-relojes');
+  function tic() {
+    var madrid = hora('Europe/Madrid');
+    var h = parseInt(madrid.slice(0, 2), 10);
+    var abierto = h >= 9 && h < 21;
+    mr.innerHTML = 'Lima <b>' + hora('America/Lima') + '</b> · Madrid <b' +
+      (abierto ? '' : ' style="color:#C8102E"') + '>' + madrid + '</b>' +
+      (abierto ? '' : ' <span style="color:#C8102E;font-weight:700">no se llama</span>');
+  }
+  tic();
+  setInterval(tic, 10000);
+
+  sincroniza();
+  pinta();
+})();
