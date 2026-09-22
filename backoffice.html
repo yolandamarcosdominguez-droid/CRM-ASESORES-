@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="cubierta.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/cubierta.css">
 </head>
 <body data-pagina="deck" data-rol-defecto="backoffice">
 <div class="app">
@@ -121,7 +121,7 @@
   </div>
 </aside>
 
-<script src="app.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
 (function () {
   'use strict';
@@ -139,25 +139,25 @@
        Movistar o Digi, que NO vendemos. Sale en la ficha. */
 
   var VENDEMOS = {
-    ORANGE:   { n: 'Orange',   c: '#FF7900', fuse: '#FF7900', art: 'logos/librea-orange.svg',   h: 17 },
-    VODAFONE: { n: 'Vodafone', c: '#E60000', fuse: '#E60000', art: 'logos/librea-vodafone.svg', h: 15 },
-    YOIGO:    { n: 'Yoigo',    c: '#400B81', fuse: '#FFFFFF', art: 'logos/yoigo.svg',    h: 17 },
-    MASMOVIL: { n: 'MásMóvil', c: '#E6B800', fuse: '#FFFFFF', art: 'logos/masmovil.svg', h: 13 },
-    LOWI:     { n: 'Lowi',     c: '#7A9E00', fuse: '#FFFFFF', art: 'logos/lowi.svg',     h: 19 }
+    ORANGE:   { n: 'Orange',   c: '#FF7900', fuse: '#FF7900', art: 'assets/logos/librea-orange.svg',   h: 17 },
+    VODAFONE: { n: 'Vodafone', c: '#E60000', fuse: '#E60000', art: 'assets/logos/librea-vodafone.svg', h: 15 },
+    YOIGO:    { n: 'Yoigo',    c: '#400B81', fuse: '#FFFFFF', art: 'assets/logos/yoigo.svg',    h: 17 },
+    MASMOVIL: { n: 'MásMóvil', c: '#E6B800', fuse: '#FFFFFF', art: 'assets/logos/masmovil.svg', h: 13 },
+    LOWI:     { n: 'Lowi',     c: '#7A9E00', fuse: '#FFFFFF', art: 'assets/logos/lowi.svg',     h: 19 }
   };
 
   var ORIGEN = {
-    ORANGE:   { n: 'Orange',   f: 'logos/orange.svg' },
-    VODAFONE: { n: 'Vodafone', f: 'logos/vodafone.svg' },
-    YOIGO:    { n: 'Yoigo',    f: 'logos/yoigo.svg' },
-    MASMOVIL: { n: 'MásMóvil', f: 'logos/masmovil.svg' },
-    LOWI:     { n: 'Lowi',     f: 'logos/lowi.svg' },
-    MOVISTAR: { n: 'Movistar', f: 'logos/movistar.svg' },
-    DIGI:     { n: 'Digi',     f: 'logos/digi.svg' }
+    ORANGE:   { n: 'Orange',   f: 'assets/logos/orange.svg' },
+    VODAFONE: { n: 'Vodafone', f: 'assets/logos/vodafone.svg' },
+    YOIGO:    { n: 'Yoigo',    f: 'assets/logos/yoigo.svg' },
+    MASMOVIL: { n: 'MásMóvil', f: 'assets/logos/masmovil.svg' },
+    LOWI:     { n: 'Lowi',     f: 'assets/logos/lowi.svg' },
+    MOVISTAR: { n: 'Movistar', f: 'assets/logos/movistar.svg' },
+    DIGI:     { n: 'Digi',     f: 'assets/logos/digi.svg' }
   };
   // el chip de la fila usa el logo normal, no la librea recortada
-  var CHIP = { ORANGE: 'logos/orange.svg', VODAFONE: 'logos/vodafone.svg', YOIGO: 'logos/yoigo.svg',
-               MASMOVIL: 'logos/masmovil.svg', LOWI: 'logos/lowi.svg' };
+  var CHIP = { ORANGE: 'assets/logos/orange.svg', VODAFONE: 'assets/logos/vodafone.svg', YOIGO: 'assets/logos/yoigo.svg',
+               MASMOVIL: 'assets/logos/masmovil.svg', LOWI: 'assets/logos/lowi.svg' };
 
   var EST = [
     { n: 'Lead',        km: 0,    fallos: [] },

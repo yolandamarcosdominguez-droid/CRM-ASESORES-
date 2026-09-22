@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="../cubierta.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/cubierta.css">
   <style>
     .app { display: flex; min-height: 100vh; background: #F8FAFC; }
     
@@ -916,7 +916,7 @@
               <div class="lane-info">
                 <span class="lane-name">María Guadalupe</span>
                 <span class="lane-sub">6 líneas + 1GB fibra</span>
-                <span class="op-chip-modern"><span class="op-dot" style="background:#FF7900;"></span><img src="../logos/orange.svg" alt="Orange" class="op-svg-logo"><span class="op-chip-title">Orange</span></span>
+                <span class="op-chip-modern"><span class="op-dot" style="background:#FF7900;"></span><img src="../assets/logos/orange.svg" alt="Orange" class="op-svg-logo"><span class="op-chip-title">Orange</span></span>
               </div>
               <div class="lane-progress-bar"><div class="lane-progress-fill" style="width:100%; background:var(--oro);"></div></div>
               <div class="lane-badge" style="color:var(--oro); font-weight:700;">Aterrizó</div>
@@ -925,7 +925,7 @@
               <div class="lane-info">
                 <span class="lane-name">Ramón Cuesta</span>
                 <span class="lane-sub">4 líneas + 600 fibra</span>
-                <span class="op-chip-modern"><span class="op-dot" style="background:#009EF7;"></span><img src="../logos/movistar.svg" alt="Movistar" class="op-svg-logo"><span class="op-chip-title">Movistar</span></span>
+                <span class="op-chip-modern"><span class="op-dot" style="background:#009EF7;"></span><img src="../assets/logos/movistar.svg" alt="Movistar" class="op-svg-logo"><span class="op-chip-title">Movistar</span></span>
               </div>
               <div class="lane-progress-bar"><div class="lane-progress-fill" style="width:75%; background:var(--azul);"></div></div>
               <div class="lane-badge" style="color:var(--azul); font-weight:700;">En Vuelo</div>
@@ -1156,15 +1156,15 @@ tickClocks();
 
 // Diccionario oficial de operadores
 var OPERADORES = {
-  MERCED:   { id: 'MERCED',   n: 'Merced Fibra', c: '#1D4ED8', f: '../logos/merced.svg', prod: 'Fibra 1Gbps + Móvil 50GB', precio: '34,90 €/mes' },
-  DIGI:     { id: 'DIGI',     n: 'Digi Smart',   c: '#0E4A6F', f: '../logos/digi.svg',   prod: 'Fibra Smart 1Gbps + Pro', precio: '30,00 €/mes' },
-  LOWI:     { id: 'LOWI',     n: 'Lowi Simple',  c: '#7A9E00', f: '../logos/lowi.svg',   prod: 'Fibra Fit 600Mb + 2 SIMs', precio: '29,95 €/mes' },
-  O2:       { id: 'O2',       n: 'O2 España',    c: '#0033A0', f: '../logos/o2.svg',     prod: 'Fibra 1Gbps + 100GB 5G', precio: '38,00 €/mes' },
-  VODAFONE: { id: 'VODAFONE', n: 'Vodafone',     c: '#E60000', f: '../logos/vodafone.svg', prod: 'Vodafone One Ilimitada', precio: '45,00 €/mes' },
-  MOVISTAR: { id: 'MOVISTAR', n: 'Movistar',     c: '#009EF7', f: '../logos/movistar.svg', prod: 'Movistar Fusión Base', precio: '52,00 €/mes' },
-  ORANGE:   { id: 'ORANGE',   n: 'Orange',       c: '#FF7900', f: '../logos/orange.svg',   prod: 'Love Cine y Series', precio: '59,00 €/mes' },
-  MASMOVIL: { id: 'MASMOVIL', n: 'MásMóvil',     c: '#E6B800', f: '../logos/masmovil.svg', prod: 'Fibra + Líneas Familia', precio: '39,90 €/mes' },
-  YOIGO:    { id: 'YOIGO',    n: 'Yoigo',        c: '#400B81', f: '../logos/yoigo.svg',    prod: 'Sinfín Fibra + GB', precio: '42,00 €/mes' }
+  MERCED:   { id: 'MERCED',   n: 'Merced Fibra', c: '#1D4ED8', f: '../assets/logos/merced.svg', prod: 'Fibra 1Gbps + Móvil 50GB', precio: '34,90 €/mes' },
+  DIGI:     { id: 'DIGI',     n: 'Digi Smart',   c: '#0E4A6F', f: '../assets/logos/digi.svg',   prod: 'Fibra Smart 1Gbps + Pro', precio: '30,00 €/mes' },
+  LOWI:     { id: 'LOWI',     n: 'Lowi Simple',  c: '#7A9E00', f: '../assets/logos/lowi.svg',   prod: 'Fibra Fit 600Mb + 2 SIMs', precio: '29,95 €/mes' },
+  O2:       { id: 'O2',       n: 'O2 España',    c: '#0033A0', f: '../assets/logos/o2.svg',     prod: 'Fibra 1Gbps + 100GB 5G', precio: '38,00 €/mes' },
+  VODAFONE: { id: 'VODAFONE', n: 'Vodafone',     c: '#E60000', f: '../assets/logos/vodafone.svg', prod: 'Vodafone One Ilimitada', precio: '45,00 €/mes' },
+  MOVISTAR: { id: 'MOVISTAR', n: 'Movistar',     c: '#009EF7', f: '../assets/logos/movistar.svg', prod: 'Movistar Fusión Base', precio: '52,00 €/mes' },
+  ORANGE:   { id: 'ORANGE',   n: 'Orange',       c: '#FF7900', f: '../assets/logos/orange.svg',   prod: 'Love Cine y Series', precio: '59,00 €/mes' },
+  MASMOVIL: { id: 'MASMOVIL', n: 'MásMóvil',     c: '#E6B800', f: '../assets/logos/masmovil.svg', prod: 'Fibra + Líneas Familia', precio: '39,90 €/mes' },
+  YOIGO:    { id: 'YOIGO',    n: 'Yoigo',        c: '#400B81', f: '../assets/logos/yoigo.svg',    prod: 'Sinfín Fibra + GB', precio: '42,00 €/mes' }
 };
 
 function renderOpChip(opKey, isInteractive, leadId) {
