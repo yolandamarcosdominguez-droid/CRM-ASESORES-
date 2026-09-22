@@ -3,6 +3,7 @@
 *.bak_*
 *~
 .DS_Store
+backups/
 
 # Dependencias, resultados de compilación y datos locales
 node_modules/
