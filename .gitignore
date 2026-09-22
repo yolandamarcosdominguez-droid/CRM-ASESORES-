@@ -1,0 +1,17 @@
+# Copias locales y temporales
+*.bak
+*.bak_*
+*~
+.DS_Store
+
+# Dependencias, resultados de compilación y datos locales
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+
+# Credenciales y herramientas locales
+.idea/
+.vscode/
